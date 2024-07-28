@@ -2,7 +2,7 @@ S -> aAa | bBv | aW
 A -> a | aA | -
 W -> Ca
 L -> -
-B -> j | -
+B -> j | - | Bj
 J -> -
 H -> B | - | ab
 C -> - | v

@@ -24,9 +24,8 @@ function main(){
     Productions = Simplification_ReplacementsProductions(Productions);
     console.log(Productions)
 
-
-    NormalForms_Chomsky();
-    NormalForms_Greibach();
+    //NormalForms_Chomsky();
+    //NormalForms_Greibach();
 
     return Productions;
 }
@@ -46,7 +45,7 @@ function Simplification_UselessSymbols(Productions){
 
     let cont = 0;
     for(let i = 0; i < Productions[0][1].length; i++){
-        for(let j = 0; j < simbols.length; j++){
+        for(let j = simbols.length; j >=0 ; j--){
             if(Productions[0][1][i].includes(simbols[j])){
                 tempSimbols[cont] = simbols[j];
                 cont++;
@@ -54,13 +53,28 @@ function Simplification_UselessSymbols(Productions){
         }
     }
 
-    simbols = [];
+    let sizeStable;
+    do{
+        sizeStable = true;
 
-    for(let i = 0; i < Productions.length; i++){
-        for(let j = 0; j < tempSimbols.length; j++){
-            if(Productions[i][0].includes(simbols[j])){
-                 
+        for(let i = 1; i < Productions.length; i++){
+            for(let j = 0; j < Productions[i][1].length; j++){
+                for(let k = 0; k < simbols.length; k++){
+                    if(Productions[i][1][j].includes(simbols[k]) && tempSimbols.indexOf(simbols[k]) < 0){
+                        sizeStable = false;
+                        tempSimbols.push(simbols[k]);
+                    }
+                }
             }
+        }
+
+    }while(sizeStable);
+
+    for(let i = 1; i < Productions.length; i++){
+        if(!tempSimbols.includes(Productions[i][0])){
+            Productions[i] = Productions[Productions.length-1];
+            Productions.pop();
+            i--;
         }
     }
 
@@ -73,7 +87,7 @@ function Simplification_EmptyProductions(Productions){
     let ahVazio = false;
 
     for(let i = 1; i < Productions.length || Productions == null; i++){
-        for(let j = 0; j < Productions[i][1].length; j++){ //Remove o vazio do fim
+        for(let j = 0; j < Productions[i][1].length; j++){
             if(Productions[i][1][j] == '-'){
                 ahVazio = true;
                 let valTemp = Productions[i][1][j];
