@@ -1,8 +1,8 @@
 S -> aAa | bBv | aW
 A -> a | aA | -
-C -> - | v
+W -> Ca
 L -> -
 B -> j | -
 J -> -
 H -> B | - | ab
-W -> Ca
+C -> - | v

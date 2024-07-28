@@ -20,10 +20,10 @@ function main(){
 
     console.log(Productions)
     Productions = Simplification_UselessSymbols(Productions);
-    console.log(Productions)
     Productions = Simplification_EmptyProductions(Productions);
+    Productions = Simplification_ReplacementsProductions(Productions);
+    console.log(Productions)
 
-    Simplification_ReplacementsProductions();
 
     NormalForms_Chomsky();
     NormalForms_Greibach();
@@ -54,7 +54,15 @@ function Simplification_UselessSymbols(Productions){
         }
     }
 
-    console.log(tempSimbols);
+    simbols = [];
+
+    for(let i = 0; i < Productions.length; i++){
+        for(let j = 0; j < tempSimbols.length; j++){
+            if(Productions[i][0].includes(simbols[j])){
+                 
+            }
+        }
+    }
 
     return Productions;
 }
@@ -91,9 +99,33 @@ function Simplification_EmptyProductions(Productions){
     return Productions;
 }
 
-function Simplification_ReplacementsProductions(){
+function Simplification_ReplacementsProductions(Productions){
     //substituição de produções
-    
+    let tempProd, tempSymbol;
+
+    for(let i = 1; i < Productions.length || Productions == null; i++){
+        if(Productions[i][1].length == 1){
+            tempSymbol = Productions[i][0];
+            tempProd = Productions[i][1][0];
+            
+            let prodTemp = Productions[i];
+            Productions[i] = Productions[Productions.length-1];
+            Productions[Productions.length-1] = prodTemp;
+            Productions.pop();
+
+            for(let k = 0; k < Productions.length; k++){
+                for(let w = 0; w < Productions[k][1].length; w++){ //Remove o vazio do fim
+                    if(Productions[k][1][w].includes(tempSymbol)){
+                        Productions[k][1][w] = Productions[k][1][w].replace(tempSymbol, tempProd);
+                    }
+                }
+            }
+
+            i--;
+        }
+    }
+
+    return Productions;
 }
 
 
