@@ -4,12 +4,9 @@
 const { count } = require('console');
 
 const Grammatic = readAlgothim(); 
+let newGrammatic = main();
 
-const newGrammatic = main();
- 
-//console.log(newGrammatic); // Gramatica Final
-
-writeNewAlgothim();
+writeNewAlgothim(newGrammatic);
 
 
 
@@ -18,11 +15,9 @@ function main(){
     let Productions = [];
     Productions = OrganizedGrammatic();
 
-    console.log(Productions)
     Productions = Simplification_UselessSymbols(Productions);
     Productions = Simplification_EmptyProductions(Productions);
     Productions = Simplification_ReplacementsProductions(Productions);
-    console.log(Productions)
 
     //NormalForms_Chomsky();
     //NormalForms_Greibach();
@@ -165,8 +160,19 @@ function readAlgothim(){
     return info;
 } 
 
-function writeNewAlgothim(){
+function writeNewAlgothim(Grammatic){
     // Escritor
+    const fs = require('fs');
+    let newGrammatic = [];
+
+    for(let i = 0; i < Grammatic.length; i++){
+        newGrammatic[i] = Grammatic[i][0].toString() + ' -> ' + Grammatic[i][1].toString() + '\n';
+        newGrammatic[i] = newGrammatic[i].replace(',', ' | ');
+    }
+
+    fs.writeFile('newGrammatic.txt', newGrammatic.toString(), (err) => {
+        if (err) throw err;
+    })
 }
 
 function OrganizedGrammatic(){
